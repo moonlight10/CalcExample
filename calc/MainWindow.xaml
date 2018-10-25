@@ -1,0 +1,183 @@
+﻿<Controls:MetroWindow x:Class="calc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:calc"
+        mc:Ignorable="d"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen"        
+        ShowIconOnTitleBar="True"
+        Title="MainWindow" Height="480" Width="640" Icon="Resources/12.png" MinWidth="540" MinHeight="380" MaxWidth="800" MaxHeight="600" Background="#055D7E" PreviewKeyDown="MetroWindow_PreviewKeyDown" >
+
+    
+
+    <Window.Resources>
+        <Style x:Key="calcBtns" TargetType="{x:Type ButtonBase}">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Upper" />
+            <Setter Property="Control.FontSize" Value="22" />
+            <Setter Property="Background" Value="#2C7692" />
+            <Setter Property="FontFamily" Value="Phenomena" />
+            <Setter Property="Foreground" Value="#FFFF8400" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="MinHeight" Value="25" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Padding" Value="5 6" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Border x:Name="Background"
+                                Background="{x:Null}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <Rectangle x:Name="DisabledVisualElement"
+                                   Fill="{DynamicResource ControlsDisabledBrush}"
+                                   IsHitTestVisible="False"
+                                   Opacity="0" />
+                            <Controls:ContentControlEx x:Name="PART_ContentPresenter"
+                                                   Padding="{TemplateBinding Padding}"
+                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   Content="{TemplateBinding Content}"
+                                                   ContentCharacterCasing="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Controls:ControlsHelper.ContentCharacterCasing)}"
+                                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                   RecognizesAccessKey="True"
+                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity">
+                                                <SplineDoubleKeyFrame KeyTime="0" Value="0.7" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.3" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource GrayBrush8}" />
+                                <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="story_btn" Content="Story" FontFamily="Phenomena" FontSize="15" FontStretch="Expanded" Click="story_btn_Click" />
+            <Button x:Name="git" FontSize="15" Click="git_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                               Height="20"
+                                Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_github}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock FontFamily="Phenomena" Margin="4 0 0 0"
+                   VerticalAlignment="Center"
+                   Text="Github" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    <Grid UseLayoutRounding="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="10,12,10,7" UseLayoutRounding="True">
+            <Border x:Name="b_shadow"  BorderBrush="#FF8908" BorderThickness="0,3,0,0" Background="#2C7692" UseLayoutRounding="True">
+                <Border.Effect >
+                    <DropShadowEffect  ShadowDepth="4"
+                          Color="#FFFFA23B"
+                          Direction="90"
+                          BlurRadius="8" RenderingBias="Quality"/>
+                </Border.Effect>
+                
+                <Viewbox HorizontalAlignment="Right">
+                    <TextBlock x:Name="field" Padding="3,0,0,2"  DockPanel.Dock="Left" Background="#2C7692" FlowDirection="LeftToRight" HorizontalAlignment="Right" VerticalAlignment="Center"  FontFamily="Phenomena" Foreground="#FFFF8400" Text="0" Margin="2,0"></TextBlock>
+                </Viewbox>
+            </Border>
+        </DockPanel>
+
+        <Grid Background="#055D7E" Grid.Row="1" Margin="7" UseLayoutRounding="True" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.25*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="4" BorderThickness="2,0,0,2" BorderBrush="#FF8908" CornerRadius="1" Margin="0,5,5,-1" />
+            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="4" BorderThickness="0,2,2,0" BorderBrush="#FF8908" Margin="5,-1,-2,5" CornerRadius="1" Padding="0"/>
+
+            <Button x:Name="clr" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="0" Grid.Column="1" Click="clr_Click">C</Button>
+            <Button x:Name="del" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="0" Grid.Column="2" Click="del_Click">DEL</Button>
+            <Button x:Name="root" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="0" Grid.Column="3" Click="root_Click">√</Button>
+            <Button x:Name="res" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="0" Grid.Column="4" Click="res_Click" >=</Button>
+
+            <Button x:Name="seven" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="1" Grid.Column="1" Click="seven_Click">7</Button>
+            <Button x:Name="eight" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="1" Grid.Column="2" Click="eight_Click">8</Button>
+            <Button x:Name="nine" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="1" Grid.Column="3" Click="nine_Click">9</Button>
+            <Button x:Name="plus" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="1" Grid.Column="4" Click="plus_Click" FlowDirection="RightToLeft" >+</Button>
+
+            <Button x:Name="four" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="2" Grid.Column="1" Click="four_Click">4</Button>
+            <Button x:Name="five" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="2" Grid.Column="2" Click="five_Click">5</Button>
+            <Button x:Name="six" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="2" Grid.Column="3" Click="six_Click">6</Button>
+            <Button x:Name="minus" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="2" Grid.Column="4" Click="minus_Click" >−</Button>
+
+            <Button x:Name="one" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="3" Grid.Column="1" Click="one_Click">1</Button>
+            <Button x:Name="two" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="3" Grid.Column="2" Click="two_Click">2</Button>
+            <Button x:Name="three" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="3" Grid.Column="3" Click="three_Click">3</Button>
+            <Button x:Name="mul" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="3" Grid.Column="4" Click="mul_Click" >×</Button>
+
+            <Button x:Name="zero" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Click="zero_Click">0</Button>
+            <Button x:Name="dot" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="4" Grid.Column="3"  Padding="5,0,5,2" Click="dot_Click">.</Button>
+            <Button x:Name="div" Style="{StaticResource calcBtns}" Margin="5" Grid.Row="4" Grid.Column="4" Click="div_Click" >÷</Button>
+
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>
